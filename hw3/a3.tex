@@ -1,0 +1,172 @@
+\documentclass{exam}
+
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+
+\usepackage{cite}
+\usepackage{color} 
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[linewidth=1pt]{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
+
+\newcommand{\xx}{{\bf{x}}}
+\newcommand{\yy}{{\bf{y}}}
+\newcommand{\ww}{{\bf{w}}}
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{CS559: Machine Learning}{Name:        }{\textcolor{red}{Due: March 13, 2023}}
+
+\title{Assignment 3}
+\date{}
+\begin{document}
+\maketitle
+\thispagestyle{headandfoot}
+
+\begin{center}
+  {\fbox{\parbox{5.5in}{\centering
+\textbf{Homework assignments will be done individually: each student must hand in their own answers. Use of partial or entire solutions obtained from others or online is strictly prohibited. Electronic submission on Canvas is mandatory.}}}}
+\end{center}
+\vspace{.5cm}
+
+
+\vspace{10pt}
+\noindent{\underline{\bf Submission Instructions}}: 
+You shall submit a zip file named Assignment3\_LastName\_FirstName.zip which contains:
+
+\begin{itemize}
+  \item python files (.ipynb or .py) including all the code, comments, plots, and result analysis. You need to provide detailed comments in English.
+   \item pdf file including (a) solutions for questions 1 and 2, (b) descriptions of observations for questions 3,4,5. 
+\end{itemize}
+
+
+\begin{questions}
+
+\begin{table}[h]
+	\centering
+	\caption{Data set for Question 1}\label{data-q1}
+	\begin{tabular}{c|c|c|c|c}
+		\hline
+		data & $x_{i1}$ & $x_{i2}$ & $y_i$ & $\alpha_i$\\
+			\hline
+		$\xx_1$ & 4 & 2.9 & 1 & 0.414 \\
+			$\xx_2$ & 4 &4 & 1 & 0 \\
+				$\xx_3$ & 1 & 2.5 & -1 & 0\\
+					$\xx_4$ & 2.5 & 1& -1 & 0.018 \\
+						$\xx_5$ & 4.9 & 4.5& 1 & 0 \\
+							$\xx_6$ & 1.9 & 1.9 & -1 & 0\\
+								$\xx_7$ &3.5 & 4 & 1 & 0.018 \\
+									$\xx_8$ & 0.5 & 1.5 & -1 & 0 \\
+										$\xx_9$ & 2 & 2.1 & -1 & 0.414 \\
+											$\xx_{10}$ & 4.5& 2.5& 1 & 0\\
+			\hline
+\end{tabular}
+\end{table}
+\question{\bf Support Vector Machines}\label{q1} (20 points) Given 10 points in Table~\ref{data-q1}, along with their classes and their Lagranian multipliers ($\alpha_i$), answer the following questions:
+
+
+\begin{parts}
+\part (7 pts) What is the equation of the SVM hyperplane $h(x)$? Draw  the hyperplane with the 10 points.
+
+\part (8 pts) What is the distance of $x_6$ from the hyperplane? Write down the process of how the distance is calculated. Is it within the margin of the classifier?
+
+
+\part (5 pts) Classify the point $z = (3, 3)^\top$ using $h(x)$ from above.
+
+\end{parts}
+
+\newpage
+\question{\bf Support Vector Machines}\label{q1} (20 points) The SVM loss function with slack variables can be viewed as:
+	\begin{align}
+		      \min_{\mathbf{w},b} \frac{ ||\mathbf{w}||^2}{2} + \gamma \sum_{i=1}^N \underbrace{\max(0, 1- y_i f(\xx_i))}_{\textcolor{red}{\text{Hinge loss}}}
+		\end{align}
+
+The hinge loss provides a way of dealing with datasets that are not separable.
+
+\begin{parts}
+\part  (8 pts)Argue that $l = \max(0, 1-y\ww^\top\xx)$ is convex as a function of $\ww$.
+
+\part  (5 pts) Suppose that for some $\ww$ we have a correct prediction of $f$ with $\xx_i$, i.e. $f(\xx_i) = \text{sgn}(\ww^\top \xx_i)$. For binary classifications ($y_i = +1/-1$), what range of values can the hinge loss, $l$, take on this correctly classified example? Points which are classified correctly and
+which have non-zero hinge loss are referred to as margin mistakes.
+
+
+\part (7 pts) Let $M(\ww)$ be the number of mistakes made by $\ww$ on our dataset (in terms of classification loss). Show that:
+$$\frac{1}{n}M(\ww) \leq \frac{1}{n}\sum_{i=1}^n \max(0, 1- y_i\ww^\top \xx_i)$$
+
+In other words, the average hinge loss on our dataset is an upper bound on the average number of mistakes we make on our dataset.
+\end{parts}
+
+\newpage
+\question{\bf  Decision Trees} (20 points) Implement a Decision Tree model for the \href{https://www.kaggle.com/c/titanic/data}{Titanic} data set (only use the train file). \textbf{Do not use packages for implementing decision trees.}
+\begin{itemize}
+\item (2 pts) Explain how you preprocess the features.
+\item (2 pts) Divide the train file into a training set and a test set.
+\item (8 pts) Build a tree on the training data and evaluate the classification performance on the test data.
+\item (4 pts) Try both Gini index and Information Gain as the attribute selection in building the decision tree; Compare their results on the test set.
+\item (2 pts) Report your best accuracy on the test data set.
+\item (2 pts) Give a brief description of your observations.
+\end{itemize}
+
+\newpage
+\question{\bf  Boosting} (20 points) Implement AdaBoost for the \href{https://www.kaggle.com/c/titanic/data}{Titanic} data set. You can use package/tools to implement your decision tree classifiers. The fit function of DecisionTreeClassifier in sklearn has a parameter: sample weight, which you can use to weigh training examples differently during various
+rounds of AdaBoost. 
+\begin{itemize}
+\item (10 pts) Implement the AdaBoost algorithm.
+\item (4 pts) Plot the train and test errors as a function of the number of rounds from 1 through 500. 
+\item (3 pts) Report your best accuracy on the test data set. 
+\item (3 pts) Give a brief description of your observations.
+\end{itemize}
+
+ \newpage
+ \question{\bf  Neural Networks} (20 points)  Apply a Neural Network (NN) model to predict a handwritten digit images into $0$ to $9$.  The pickled file represents a tuple of 3 lists : the training set, the validation set and the test set. Each of the three lists is a pair formed from a list of images and a list of class labels for each of the images. An image is represented as numpy 1-dimensional array of 784 (28 x 28) float values between $0$ and $1$ ($0$ stands for black, $1$ for white). The labels are numbers between $0$ and $9$ indicating which digit the image represents. The code block below shows how to load the dataset.
+ 
+ \begin{lstlisting}
+import cPickle, gzip, numpy
+
+# Load the dataset
+f = gzip.open('mnist.pkl.gz', 'rb')
+train_set, valid_set, test_set = cPickle.load(f)
+f.close()
+\end{lstlisting}
+
+\begin{itemize}
+\item (6 pts) Build a neural network with one or two hidden layers using the training data and predict the labels of data samples in the test set. Choose a loss function for this classification problem. You can use packages for neural networks. If you write a neural network from scratch with forward pass and back-propagation, you will get extra credits.
+\item (3 pts) Tune your model hyper-parameters (number of hidden neurons in your hidden layers) on the validation set.
+\item (5 pts) Plot the train, validation, and test errors as a function of the epochs (x-axis: epochs, y-axis: errors. 
+\item (2 pts) Report the best accuracy on the validation and test data sets.
+\item (2 pts) Apply early stopping using the validation set to avoid overfitting.
+\item (2 pts) Give a brief description of your observations.
+\end{itemize}
+\end{questions}
+
+
+
+\end{document}

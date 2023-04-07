@@ -1,0 +1,95 @@
+\documentclass{exam}
+
+\usepackage{amsmath}
+
+\usepackage{amssymb}
+
+\usepackage{graphicx}
+
+\usepackage{cite}
+\usepackage{color} 
+\usepackage{setspace}
+\usepackage{hyperref}
+\usepackage[linewidth=1pt]{mdframed}
+\usepackage{tcolorbox}
+\usepackage{hyperref}
+\newcommand{\xx}{{\bf{x}}}
+\newcommand{\yy}{{\bf{y}}}
+\newcommand{\ww}{{\bf{w}}}
+
+\pagestyle{headandfoot}
+\runningheadrule
+\firstpageheader{CS559: Machine Learning}{Name:        }{\textcolor{red}{Due: Feb. 27, 2023}}
+
+\title{Assignment 2}
+\date{}
+\begin{document}
+\maketitle
+\thispagestyle{headandfoot}
+
+\begin{center}
+  {\fbox{\parbox{5.5in}{\centering
+Homework assignments will be done individually: each student must hand in their own answers. Use of partial or entire solutions obtained from others or online is strictly prohibited. Electronic submission on Canvas is mandatory. }}}
+\end{center}
+\vspace{.5cm}
+
+\underline{\bf Please follow the below instructions when you submit the assignment.}
+\begin{itemize}
+\item \textbf{Do not use any package/tool for implementing the algorithms; You can use packages for matrix/vector operations,  data processing,  or cross-validation}.
+\item 
+You shall submit a zip file named Assignment2\_LastName\_FirstName.zip which contains:
+\begin{itemize}
+  \item a pdf file contains all your solutions for the written part
+  \item python files (jupyter notebook or .py files)
+\end{itemize}
+\end{itemize}
+\vspace{.5cm}
+
+\begin{questions}
+
+\question{\bf  Linear Discriminant Analysis} (20 points) Please download the ``processed.cleveland.data'' from \href{https://archive.ics.uci.edu/ml/machine-learning-databases/heart-disease/}{Heart-disease data set} in the UCI Machine Learning repository and implement a binary Fisher's Linear Discriminant Analysis to distinguish no-heart disease (0) from heart disease(1 -- 4) and report your results.  Please read ``heart-disease.names'' for the explanation of features (13 features are used). Split data into training (80\%) and test (20\%). Write down each step of your solution. 
+\vspace{5em}
+ 
+ \question{\bf Generative methods vs Discriminative methods} (50 points) Please download the \href{https://archive.ics.uci.edu/ml/datasets/Breast+Cancer+Wisconsin+\%28Diagnostic\%29}{breast cancer data set} from UCI Machine Learning repository. You can either use ``breast-cancer-wisconsin.data'' or ``wdbc.data''. Please check their corresponding ``.names'' files for the explanation of features and labels.
+
+\begin{enumerate}
+\item (10 pts) Show that the derivative of the error function in Logistic Regression with respect to $\mathbf{w}$ is:
+\begin{equation*}
+\nabla_\ww E(\ww)=\sum_{n=1}^{N}(f(\xx_n)-y_n)\xx_n 
+\end{equation*}
+
+\item (20 pts) Implement a logistic regression classifier with maximum likelihood (ML) estimator using Stochastic gradient descent and Mini-Batch gradient descent algorithms. Divide the data into training and test. Choose a proper learning rate. Use cross-validation on the training data to choose the best model and report the recall, precision, and accuracy on malignant class prediction (class label malignant is positive) on the test data using the best model. Write down each step of your solution.
+
+\item (20 pts) Implement a probabilistic generative model (the one in our lecture) for this problem. Use cross-validation on the training data and report the recall, precision, and accuracy on malignant class prediction (class label malignant is positive)  on the test data using the best model. Write down each step of your solution.
+\end{enumerate}
+\vspace{5em}
+
+\question{\bf  Naive Bayes} (20 points) From Project Gutenberg, we downloaded two files: The Adventures of Sherlock Holmes by Arthur Conan Doyle (pg1661.txt) and The Complete Works of Jane Austen (pg31100.txt). Please develop a multinomial Naive Bayes Classifier that will learn to classify the authors from a snippet of text into: Conan Doyle or Jane Austen. A multinomial Naive Bayes uses a feature vector $\mathbf{x}=\{x_1,...,x_D\}$ as a histogram and model the posterior probability as:
+
+\begin{equation}
+    p(C_k|\mathbf{x}) \propto p(C_k)\prod_{i=1}^D p(x_i|C_k)
+\end{equation}
+
+where $p(x_i|C_k)$ can be estimated by the number of times word $i$ was observed in class $C_k$ plus a smoothing factor divided by the total number of words in $C_k$
+
+In the test phase, given a new example $\mathbf{x}_t$, you can output the class assignment for this example by comparing $\log p(C_1|\mathbf{x}_t)$ and $\log p(C_2|\mathbf{x}_t)$. If $\log p(C_2|\mathbf{x}_t) > \log p(C_1|\mathbf{x}_t)$, assign $C_2$ to this example.
+ You need to divide the data into training and test.  For the words that appear in the test set but not in the training set, you can either ignore these words in the probability calculation or you can apply smoothing in $p(x_i|C_k)$ (e.g. Laplace smoothing).
+ 
+You can apply some preprocesssing techniques such as removing stop-words and punctuation. You can remove the unrelated text in the beginning of each file. Make sure the test data has equal number of samples from Conan Doyle and Jane Austen. 
+
+Report accuracy on test data using your Naive Bayes classifier. 
+
+\vspace{5em}
+
+\question{\bf  Linear classification} (10 points) Please prove that 1) the multinomial naive Bayes classifier in log-space essentially translates to a linear classifier. 2) Logistic regression is a linear classifier.
+\vspace{5em}
+
+
+
+
+\end{questions}
+
+
+
+
+\end{document}
